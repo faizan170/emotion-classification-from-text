@@ -6,27 +6,29 @@ import re
 # Your input sentence
 sentence = ['When stole book in class and the teacher caught me the rest of the class laughed at my attempt ']
 
-
+print("[INFO]: Loading Classes")
 # Load class names
-classNames = np.load("class_names.npy")
+classNames = np.load("./data/class_names.npy")
 
 # Load tokenizer pickle file
 
 
-with open('tokenizer.pickle', 'rb') as handle:
+print("[INFO]: Loading Tokens")
+with open('./data/tokenizer.pickle', 'rb') as handle:
         Tokenizer = pickle.load(handle)
 
 
 # Load model
 
 
+print("[INFO]: Loading Model")
+model = tf.keras.models.load_model("./data/model_final.model")
 
-model = tf.keras.models.load_model("model_final.model")
 
 
+
+print("[INFO]: Preprocessing")
 # Preprocess Text
-
-
 MAX_LENGTH = maxlen = 100
 
 
@@ -61,11 +63,12 @@ sentence_padded = tf.keras.preprocessing.sequence.pad_sequences(sentence_process
 
 
 
+print("""[INFO]: Prediction\n\t{}""".format(sentence[0]))
 # Get prediction for sentence
 result = model.predict(sentence_padded)
-
+print("-"*20)
 # Show prediction
-print("Emotion class for given text is: {}".format(classNames[np.argmax(result)]))
+print("[INFO]: Emotion class for given text is: {}".format(classNames[np.argmax(result)]))
 
 
 
